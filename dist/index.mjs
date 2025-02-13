@@ -591,7 +591,7 @@ var Alphapolis = class extends Web {
     };
     return result;
   }
-  async getChapter(uid, nid, cid, seq) {
+  async getChapter(uid, nid, cid) {
     const url = `https://www.alphapolis.co.jp/novel/${uid}/${nid}/episode/${cid}`;
     const $2 = await this.load(url, null, async (page) => {
       let i = 0;
@@ -618,7 +618,6 @@ var Alphapolis = class extends Web {
     const content = $2("#novelBody").find("br").replaceWith("\n").end().text();
     const result = {
       id: cid,
-      seq,
       title,
       content
     };
@@ -631,7 +630,7 @@ var Alphapolis = class extends Web {
     for (let i = 0; i < len; i++) {
       try {
         const chapterId = meta.chapterIds[i];
-        const chapter = await this.getChapter(uid, nid, chapterId, i);
+        const chapter = await this.getChapter(uid, nid, chapterId);
         chapters.push(chapter);
         if (callback) {
           callback(null, chapter, i, len);
@@ -646,7 +645,6 @@ var Alphapolis = class extends Web {
       ...meta,
       chapters
     };
-    await this.close();
     return result;
   }
 };
@@ -691,7 +689,7 @@ var Hameln = class extends Web {
     };
     return result;
   }
-  async getChapter(nid, cid, seq) {
+  async getChapter(nid, cid) {
     const url = `https://syosetu.org/novel/${nid}/${cid}.html`;
     const $2 = await this.fetch(url);
     const title = getText($2("#analytics_start").prev());
@@ -704,7 +702,6 @@ var Hameln = class extends Web {
     }
     const result = {
       id: cid,
-      seq,
       title,
       content: lines.join("\n")
     };
@@ -717,7 +714,7 @@ var Hameln = class extends Web {
     for (let i = 0; i < len; i++) {
       try {
         const chapterId = meta.chapterIds[i];
-        const chapter = await this.getChapter(id, chapterId, i);
+        const chapter = await this.getChapter(id, chapterId);
         chapters.push(chapter);
         if (callback) {
           callback(null, chapter, i, len);
@@ -801,7 +798,7 @@ var Kakuyomu = class extends Web {
     };
     return result;
   }
-  async getChapter(nid, cid, seq) {
+  async getChapter(nid, cid) {
     const url = `https://kakuyomu.jp/works/${nid}/episodes/${cid}`;
     const $2 = await this.fetch(url);
     const title = getText($2("#contentMain-header"));
@@ -814,7 +811,6 @@ var Kakuyomu = class extends Web {
     }
     const result = {
       id: cid,
-      seq,
       title,
       content: lines.join("\n")
     };
@@ -827,7 +823,7 @@ var Kakuyomu = class extends Web {
     for (let i = 0; i < len; i++) {
       try {
         const chapterId = meta.chapterIds[i];
-        const chapter = await this.getChapter(id, chapterId, i);
+        const chapter = await this.getChapter(id, chapterId);
         chapters.push(chapter);
         if (callback) {
           callback(null, chapter, i, len);
@@ -885,7 +881,7 @@ var Narou = class extends Web {
     };
     return result;
   }
-  async getChapter(nid, cid, seq) {
+  async getChapter(nid, cid) {
     const url = `https://ncode.syosetu.com/${nid}/${cid}`;
     const $2 = await this.fetch(url);
     const title = getText($2("h1.p-novel__title p-novel__title--rensai"));
@@ -898,7 +894,6 @@ var Narou = class extends Web {
     }
     const result = {
       id: cid,
-      seq,
       title,
       content: lines.join("\n")
     };
@@ -911,7 +906,7 @@ var Narou = class extends Web {
     for (let i = 0; i < len; i++) {
       try {
         const chapterId = meta.chapterIds[i];
-        const chapter = await this.getChapter(id, chapterId, i);
+        const chapter = await this.getChapter(id, chapterId);
         chapters.push(chapter);
         if (callback) {
           callback(null, chapter, i, len);
@@ -931,43 +926,77 @@ var Narou = class extends Web {
 };
 
 // src/index.ts
-async function getMetadata(type, id) {
+async function getMetadata(type, bookId) {
   if (type === "narou") {
     const w2 = new Narou();
-    const data = await w2.getMetadata(id);
+    const data = await w2.getMetadata(bookId);
     return data;
   } else if (type === "kakuyomu") {
     const w2 = new Kakuyomu();
-    const data = await w2.getMetadata(id);
+    const data = await w2.getMetadata(bookId);
     return data;
   } else if (type === "alphapolis") {
     const w2 = new Alphapolis();
-    const data = await w2.getMetadata(id.split("/")[0], id.split("/")[1]);
+    const data = await w2.getMetadata(
+      bookId.split("/")[0],
+      bookId.split("/")[1]
+    );
     return data;
   } else if (type === "hameln") {
     const w2 = new Hameln();
-    const data = await w2.getMetadata(id);
+    const data = await w2.getMetadata(bookId);
     return data;
   } else {
     throw new Error(`Invalid type: ${type}`);
   }
 }
-async function getBook(type, id, callback) {
+async function getChapter(type, bookId, chapterId) {
   if (type === "narou") {
     const w2 = new Narou();
-    const data = await w2.getBook(id, callback);
+    const data = await w2.getChapter(bookId, chapterId);
     return data;
   } else if (type === "kakuyomu") {
     const w2 = new Kakuyomu();
-    const data = await w2.getBook(id, callback);
+    const data = await w2.getChapter(bookId, chapterId);
     return data;
   } else if (type === "alphapolis") {
     const w2 = new Alphapolis();
-    const data = await w2.getBook(id.split("/")[0], id.split("/")[1], callback);
+    const data = await w2.getChapter(
+      bookId.split("/")[0],
+      bookId.split("/")[1],
+      chapterId
+    );
+    await w2.close();
     return data;
   } else if (type === "hameln") {
     const w2 = new Hameln();
-    const data = await w2.getBook(id, callback);
+    const data = await w2.getChapter(bookId, chapterId);
+    return data;
+  } else {
+    throw new Error(`Invalid type: ${type}`);
+  }
+}
+async function getBook(type, bookId, callback) {
+  if (type === "narou") {
+    const w2 = new Narou();
+    const data = await w2.getBook(bookId, callback);
+    return data;
+  } else if (type === "kakuyomu") {
+    const w2 = new Kakuyomu();
+    const data = await w2.getBook(bookId, callback);
+    return data;
+  } else if (type === "alphapolis") {
+    const w2 = new Alphapolis();
+    const data = await w2.getBook(
+      bookId.split("/")[0],
+      bookId.split("/")[1],
+      callback
+    );
+    await w2.close();
+    return data;
+  } else if (type === "hameln") {
+    const w2 = new Hameln();
+    const data = await w2.getBook(bookId, callback);
     return data;
   } else {
     throw new Error(`Invalid type: ${type}`);
@@ -975,5 +1004,6 @@ async function getBook(type, id, callback) {
 }
 export {
   getBook,
+  getChapter,
   getMetadata
 };

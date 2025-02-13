@@ -35,6 +35,19 @@ console.log(metadata);
 //   updatedAt: number;
 // }
 
+const chapter = await getChapter(
+  "narou",
+  "n6868jy",
+  "1",
+);
+
+console.log(chapter);
+// {
+//   id: string,
+//   title: string,
+//   content: string,
+// }
+
 const book = await getBook(
   "narou",
   "n6868jy",
@@ -62,7 +75,6 @@ console.log(book);
 //   chapters: [
 //     {
 //       id: string,
-//       seq: number,
 //       title: string,
 //       content: string,
 //     }

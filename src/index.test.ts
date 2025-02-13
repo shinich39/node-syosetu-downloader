@@ -4,7 +4,7 @@ import { describe, test, it } from "node:test";
 import assert from "node:assert";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { getBook, getMetadata } from "./index";
+import { getBook, getChapter, getMetadata } from "./index";
 const __path = path.relative(process.cwd(), fileURLToPath(import.meta.url));
 const eq = (a, b, msg) =>
   typeof a === "object"
@@ -13,8 +13,17 @@ const eq = (a, b, msg) =>
 
 describe(__path, () => {
   test("getMetadata", async () => {
+    return;
+
     // 18
     const data = await getMetadata("narou", "n2610gb");
+
+    console.log(data);
+  });
+
+  test("getChapter", async () => {
+    // 18
+    const data = await getChapter("narou", "n2610gb", "1");
 
     console.log(data);
   });

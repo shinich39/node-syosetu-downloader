@@ -80,7 +80,7 @@ export class Alphapolis extends Web {
     return result;
   }
 
-  async getChapter(uid: string, nid: string, cid: string, seq: number) {
+  async getChapter(uid: string, nid: string, cid: string) {
     const url = `https://www.alphapolis.co.jp/novel/${uid}/${nid}/episode/${cid}`;
     const $ = await this.load(url, null, async (page) => {
       let i = 0;
@@ -112,7 +112,6 @@ export class Alphapolis extends Web {
 
     const result: IChapter = {
       id: cid,
-      seq,
       title,
       content,
     };
@@ -136,7 +135,7 @@ export class Alphapolis extends Web {
     for (let i = 0; i < len; i++) {
       try {
         const chapterId = meta.chapterIds[i];
-        const chapter = await this.getChapter(uid, nid, chapterId, i);
+        const chapter = await this.getChapter(uid, nid, chapterId);
         chapters.push(chapter);
         if (callback) {
           callback(null, chapter, i, len);
@@ -152,8 +151,6 @@ export class Alphapolis extends Web {
       ...meta,
       chapters,
     };
-
-    await this.close();
 
     return result;
   }

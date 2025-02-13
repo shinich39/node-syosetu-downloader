@@ -63,7 +63,7 @@ export class Narou extends Web {
     return result;
   }
 
-  async getChapter(nid: string, cid: string, seq: number) {
+  async getChapter(nid: string, cid: string) {
     const url = `https://ncode.syosetu.com/${nid}/${cid}`;
     const $ = await this.fetch(url);
 
@@ -80,7 +80,6 @@ export class Narou extends Web {
 
     const result: IChapter = {
       id: cid,
-      seq,
       title,
       content: lines.join("\n"),
     };
@@ -103,7 +102,7 @@ export class Narou extends Web {
     for (let i = 0; i < len; i++) {
       try {
         const chapterId = meta.chapterIds[i];
-        const chapter = await this.getChapter(id, chapterId, i);
+        const chapter = await this.getChapter(id, chapterId);
         chapters.push(chapter);
         if (callback) {
           callback(null, chapter, i, len);
