@@ -8,6 +8,9 @@ import { Kakuyomu } from "./providers/kakuyomu";
 import { Narou } from "./providers/narou";
 
 export { Provider, PROVIDER } from "./models/provider";
+export { IMeta } from "./models/meta";
+export { IChapter } from "./models/chapter";
+export { IBook } from "./models/book";
 
 export async function getMetadata(provider: Provider, bookId: string) {
   if (provider === "narou") {
