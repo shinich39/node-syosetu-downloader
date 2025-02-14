@@ -1,15 +1,15 @@
 "use strict";
 
 import { IChapter } from "./models/chapter";
+import { Provider, PROVIDER } from "./models/provider";
 import { Alphapolis } from "./providers/alphapolis";
 import { Hameln } from "./providers/hameln";
 import { Kakuyomu } from "./providers/kakuyomu";
 import { Narou } from "./providers/narou";
 
-export async function getMetadata(
-  provider: "narou" | "kakuyomu" | "alphapolis" | "hameln",
-  bookId: string
-) {
+export { Provider, PROVIDER } from "./models/provider";
+
+export async function getMetadata(provider: Provider, bookId: string) {
   if (provider === "narou") {
     const w = new Narou();
     const data = await w.getMetadata(bookId);
@@ -35,7 +35,7 @@ export async function getMetadata(
 }
 
 export async function getChapter(
-  provider: "narou" | "kakuyomu" | "alphapolis" | "hameln",
+  provider: Provider,
   bookId: string,
   chapterId: string
 ) {
@@ -66,7 +66,7 @@ export async function getChapter(
 }
 
 export async function getBook(
-  provider: "narou" | "kakuyomu" | "alphapolis" | "hameln",
+  provider: Provider,
   bookId: string,
   callback?: (
     err: unknown | null,

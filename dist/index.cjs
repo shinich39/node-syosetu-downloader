@@ -30,6 +30,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  PROVIDER: () => PROVIDER,
   getBook: () => getBook,
   getChapter: () => getChapter,
   getMetadata: () => getMetadata
@@ -963,6 +964,14 @@ var Narou = class extends Web {
   }
 };
 
+// src/models/provider.ts
+var PROVIDER = {
+  NAROU: "narou",
+  KAKUYOMU: "kakuyomu",
+  ALPHAPOLIS: "alphapolis",
+  HAMELN: "hameln"
+};
+
 // src/index.ts
 async function getMetadata(provider, bookId) {
   if (provider === "narou") {
@@ -1042,6 +1051,7 @@ async function getBook(provider, bookId, callback) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  PROVIDER,
   getBook,
   getChapter,
   getMetadata

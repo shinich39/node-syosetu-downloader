@@ -925,6 +925,14 @@ var Narou = class extends Web {
   }
 };
 
+// src/models/provider.ts
+var PROVIDER = {
+  NAROU: "narou",
+  KAKUYOMU: "kakuyomu",
+  ALPHAPOLIS: "alphapolis",
+  HAMELN: "hameln"
+};
+
 // src/index.ts
 async function getMetadata(provider, bookId) {
   if (provider === "narou") {
@@ -1003,6 +1011,7 @@ async function getBook(provider, bookId, callback) {
   }
 }
 export {
+  PROVIDER,
   getBook,
   getChapter,
   getMetadata
