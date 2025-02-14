@@ -7,47 +7,47 @@ import { Kakuyomu } from "./providers/kakuyomu";
 import { Narou } from "./providers/narou";
 
 export async function getMetadata(
-  type: "narou" | "kakuyomu" | "alphapolis" | "hameln",
+  provider: "narou" | "kakuyomu" | "alphapolis" | "hameln",
   bookId: string
 ) {
-  if (type === "narou") {
+  if (provider === "narou") {
     const w = new Narou();
     const data = await w.getMetadata(bookId);
     return data;
-  } else if (type === "kakuyomu") {
+  } else if (provider === "kakuyomu") {
     const w = new Kakuyomu();
     const data = await w.getMetadata(bookId);
     return data;
-  } else if (type === "alphapolis") {
+  } else if (provider === "alphapolis") {
     const w = new Alphapolis();
     const data = await w.getMetadata(
       bookId.split("/")[0],
       bookId.split("/")[1]
     );
     return data;
-  } else if (type === "hameln") {
+  } else if (provider === "hameln") {
     const w = new Hameln();
     const data = await w.getMetadata(bookId);
     return data;
   } else {
-    throw new Error(`Invalid type: ${type}`);
+    throw new Error(`Invalid provider: ${provider}`);
   }
 }
 
 export async function getChapter(
-  type: "narou" | "kakuyomu" | "alphapolis" | "hameln",
+  provider: "narou" | "kakuyomu" | "alphapolis" | "hameln",
   bookId: string,
   chapterId: string
 ) {
-  if (type === "narou") {
+  if (provider === "narou") {
     const w = new Narou();
     const data = await w.getChapter(bookId, chapterId);
     return data;
-  } else if (type === "kakuyomu") {
+  } else if (provider === "kakuyomu") {
     const w = new Kakuyomu();
     const data = await w.getChapter(bookId, chapterId);
     return data;
-  } else if (type === "alphapolis") {
+  } else if (provider === "alphapolis") {
     const w = new Alphapolis();
     const data = await w.getChapter(
       bookId.split("/")[0],
@@ -56,17 +56,17 @@ export async function getChapter(
     );
     await w.close();
     return data;
-  } else if (type === "hameln") {
+  } else if (provider === "hameln") {
     const w = new Hameln();
     const data = await w.getChapter(bookId, chapterId);
     return data;
   } else {
-    throw new Error(`Invalid type: ${type}`);
+    throw new Error(`Invalid provider: ${provider}`);
   }
 }
 
 export async function getBook(
-  type: "narou" | "kakuyomu" | "alphapolis" | "hameln",
+  provider: "narou" | "kakuyomu" | "alphapolis" | "hameln",
   bookId: string,
   callback?: (
     err: unknown | null,
@@ -75,15 +75,15 @@ export async function getBook(
     length: number
   ) => void
 ) {
-  if (type === "narou") {
+  if (provider === "narou") {
     const w = new Narou();
     const data = await w.getBook(bookId, callback);
     return data;
-  } else if (type === "kakuyomu") {
+  } else if (provider === "kakuyomu") {
     const w = new Kakuyomu();
     const data = await w.getBook(bookId, callback);
     return data;
-  } else if (type === "alphapolis") {
+  } else if (provider === "alphapolis") {
     const w = new Alphapolis();
     const data = await w.getBook(
       bookId.split("/")[0],
@@ -92,11 +92,11 @@ export async function getBook(
     );
     await w.close();
     return data;
-  } else if (type === "hameln") {
+  } else if (provider === "hameln") {
     const w = new Hameln();
     const data = await w.getBook(bookId, callback);
     return data;
   } else {
-    throw new Error(`Invalid type: ${type}`);
+    throw new Error(`Invalid provider: ${provider}`);
   }
 }
