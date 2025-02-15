@@ -96,7 +96,7 @@ export class Kakuyomu extends Web {
     const url = `https://kakuyomu.jp/works/${nid}/episodes/${cid}`;
     const $ = await this.fetch(url);
 
-    const title = getText($("#contentMain-header"));
+    const title = getText($("#contentMain-header .widget-episodeTitle"));
 
     let i = 1,
       elem = $(`#p${i}`);

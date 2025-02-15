@@ -810,7 +810,7 @@ var Kakuyomu = class extends Web {
   async getChapter(nid, cid) {
     const url = `https://kakuyomu.jp/works/${nid}/episodes/${cid}`;
     const $2 = await this.fetch(url);
-    const title = getText($2("#contentMain-header"));
+    const title = getText($2("#contentMain-header .widget-episodeTitle"));
     let i = 1, elem = $2(`#p${i}`);
     const lines = [];
     while (elem.length !== 0) {

@@ -17,11 +17,11 @@ describe(__path, () => {
 
     const k = new Kakuyomu();
 
-    const meta = await k.getMetadata("16818023213579131277");
+    const meta = await k.getMetadata("16818093077848491501");
     console.log(meta);
 
     const data = await k.getBook(
-      "16818023213579131277",
+      "16818093077848491501",
       (err, chapter, index, length) => {
         console.log(err, chapter, index, length);
       }
