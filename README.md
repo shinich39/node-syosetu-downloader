@@ -1,6 +1,6 @@
 # node-syosetu-downloader
 
-...
+narou, kakuyomu, alphapolis, hameln
 
 ## Getting Started
 
@@ -17,7 +17,7 @@ npm install github:shinich39/node-syosetu-downloader
 - node
 
 ```js
-import { getMetadata, getChapter, getBook } from "node-syosetu-downloader";
+import { getMetadata, getChapter, getBook, close } from "node-syosetu-downloader";
 
 const metadata = await getMetadata(
   "narou",
@@ -82,6 +82,9 @@ console.log(book);
 //   createdAt: number;
 //   updatedAt: number;
 // }
+
+// destroy headless browser
+await close();
 ```
 
 ## Acknowledgements

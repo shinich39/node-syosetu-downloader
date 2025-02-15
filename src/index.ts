@@ -7,31 +7,30 @@ import { Hameln } from "./providers/hameln";
 import { Kakuyomu } from "./providers/kakuyomu";
 import { Narou } from "./providers/narou";
 
-export { Provider, PROVIDER } from "./models/provider";
-export { IMeta } from "./models/meta";
-export { IChapter } from "./models/chapter";
-export { IBook } from "./models/book";
+export * from "./models/provider";
+export * from "./models/meta";
+export * from "./models/chapter";
+export * from "./models/book";
+
+const instances = {
+  narou: new Narou(),
+  kakuyomu: new Kakuyomu(),
+  alphapolis: new Alphapolis(),
+  hameln: new Hameln(),
+};
 
 export async function getMetadata(provider: Provider, bookId: string) {
   if (provider === "narou") {
-    const w = new Narou();
-    const data = await w.getMetadata(bookId);
-    return data;
+    return await instances.narou.getMetadata(bookId);
   } else if (provider === "kakuyomu") {
-    const w = new Kakuyomu();
-    const data = await w.getMetadata(bookId);
-    return data;
+    return await instances.kakuyomu.getMetadata(bookId);
   } else if (provider === "alphapolis") {
-    const w = new Alphapolis();
-    const data = await w.getMetadata(
+    return await instances.alphapolis.getMetadata(
       bookId.split("/")[0],
       bookId.split("/")[1]
     );
-    return data;
   } else if (provider === "hameln") {
-    const w = new Hameln();
-    const data = await w.getMetadata(bookId);
-    return data;
+    return await instances.hameln.getMetadata(bookId);
   } else {
     throw new Error(`Invalid provider: ${provider}`);
   }
@@ -43,26 +42,17 @@ export async function getChapter(
   chapterId: string
 ) {
   if (provider === "narou") {
-    const w = new Narou();
-    const data = await w.getChapter(bookId, chapterId);
-    return data;
+    return await instances.narou.getChapter(bookId, chapterId);
   } else if (provider === "kakuyomu") {
-    const w = new Kakuyomu();
-    const data = await w.getChapter(bookId, chapterId);
-    return data;
+    return await instances.kakuyomu.getChapter(bookId, chapterId);
   } else if (provider === "alphapolis") {
-    const w = new Alphapolis();
-    const data = await w.getChapter(
+    return await instances.alphapolis.getChapter(
       bookId.split("/")[0],
       bookId.split("/")[1],
       chapterId
     );
-    await w.close();
-    return data;
   } else if (provider === "hameln") {
-    const w = new Hameln();
-    const data = await w.getChapter(bookId, chapterId);
-    return data;
+    return await instances.hameln.getChapter(bookId, chapterId);
   } else {
     throw new Error(`Invalid provider: ${provider}`);
   }
@@ -79,27 +69,24 @@ export async function getBook(
   ) => void
 ) {
   if (provider === "narou") {
-    const w = new Narou();
-    const data = await w.getBook(bookId, callback);
-    return data;
+    return await instances.narou.getBook(bookId, callback);
   } else if (provider === "kakuyomu") {
-    const w = new Kakuyomu();
-    const data = await w.getBook(bookId, callback);
-    return data;
+    return await instances.kakuyomu.getBook(bookId, callback);
   } else if (provider === "alphapolis") {
-    const w = new Alphapolis();
-    const data = await w.getBook(
+    return await instances.alphapolis.getBook(
       bookId.split("/")[0],
       bookId.split("/")[1],
       callback
     );
-    await w.close();
-    return data;
   } else if (provider === "hameln") {
-    const w = new Hameln();
-    const data = await w.getBook(bookId, callback);
-    return data;
+    return await instances.hameln.getBook(bookId, callback);
   } else {
     throw new Error(`Invalid provider: ${provider}`);
+  }
+}
+
+export async function close() {
+  for (const i of Object.values(instances)) {
+    await i.close();
   }
 }

@@ -85,6 +85,10 @@ export class Kakuyomu extends Web {
       updatedAt: updatedAt,
     };
 
+    if (result.title === "" || result.author === "") {
+      throw new Error("Metadata not found");
+    }
+
     return result;
   }
 
