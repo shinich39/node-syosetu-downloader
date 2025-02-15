@@ -936,7 +936,7 @@ var Narou = class extends Web {
   async getChapter(nid, cid) {
     const url = `https://ncode.syosetu.com/${nid}/${cid}`;
     const $2 = await this.fetch(url);
-    const title = getText($2("h1.p-novel__title p-novel__title--rensai"));
+    const title = getText($2("h1.p-novel__title"));
     let i = 1, elem = $2(`#L${i}`);
     const lines = [];
     while (elem.length !== 0) {
