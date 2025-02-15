@@ -17,8 +17,8 @@ describe(__path, () => {
 
     const n = new Narou();
 
-    const meta = await n.getMetadata("n6868jy");
-    console.log(meta);
+    // const meta = await n.getMetadata("n6868jy");
+    // console.log(meta);
 
     const data = await n.getBook("n6868jy", (err, chapter, index, length) => {
       console.log(err, chapter, index, length);

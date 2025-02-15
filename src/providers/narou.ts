@@ -71,7 +71,7 @@ export class Narou extends Web {
     const url = `https://ncode.syosetu.com/${nid}/${cid}`;
     const $ = await this.fetch(url);
 
-    const title = getText($("h1.p-novel__title p-novel__title--rensai"));
+    const title = getText($("h1.p-novel__title"));
 
     let i = 1,
       elem = $(`#L${i}`);
