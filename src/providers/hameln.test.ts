@@ -23,17 +23,25 @@ describe(__path, () => {
   test("short", async () => {
     const meta = await a.getMetadata("365664");
     eq(meta.onGoing, false);
+    eq(meta.title, "無色のイシ");
+    eq(meta.author, "lumi27");
   });
 
   test("going", async () => {
     const meta = await a.getMetadata("367279");
     eq(meta.onGoing, true);
+    eq(meta.title, "ままならないヤンデレ彼女たち");
+    eq(meta.author, "過激派ままどおる信者");
   });
 
   test("completed", async () => {
     const meta = await a.getMetadata("201750");
     eq(meta.onGoing, false);
+    eq(meta.title, "初日からPKしたけどデスゲームだったキリトくん");
+    eq(meta.author, "〆鯖缶太郎");
   });
+
+  return;
 
   test("init", async () => {
     return;

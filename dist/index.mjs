@@ -566,7 +566,7 @@ var Alphapolis = class extends Web {
     };
     const onGoing = /連載中/.test(getText($2(".content-statuses").first()));
     const title = getText($2("h1.title"));
-    const author = getText($2(".author"));
+    const author = getText($2(".author a").first());
     const outline = getText($2(".abstract").first());
     const createdAtStr = getTableText("\u521D\u56DE\u516C\u958B\u65E5\u6642").replace(/[^0-9]/g, "");
     const updatedAtStr = getTableText("\u66F4\u65B0\u65E5\u6642").replace(/[^0-9]/g, "");

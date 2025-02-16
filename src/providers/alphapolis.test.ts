@@ -24,22 +24,32 @@ describe(__path, () => {
   test("short-going", async () => {
     const meta = await a.getMetadata("643190032", "456940721");
     eq(meta.onGoing, true);
+    eq(meta.title, "星の聖女見習い");
+    eq(meta.author, "みこと");
   });
 
   test("short-completed", async () => {
     const meta = await a.getMetadata("501580631", "997939367");
     eq(meta.onGoing, false);
+    eq(meta.title, "ダンゴムシになったら(改)");
+    eq(meta.author, "YPNPC");
   });
 
   test("long-going", async () => {
     const meta = await a.getMetadata("76166291", "213939438");
     eq(meta.onGoing, true);
+    eq(meta.title, "嘘の愛で縛られるほど、私は愚かではありません");
+    eq(meta.author, "ネコ");
   });
 
   test("long-completed", async () => {
     const meta = await a.getMetadata("77586146", "733940483");
     eq(meta.onGoing, false);
+    eq(meta.title, "向日葵");
+    eq(meta.author, "絵麻");
   });
+
+  return;
 
   test("init", async () => {
     return;

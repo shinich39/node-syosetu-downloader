@@ -14,6 +14,7 @@ const eq = (a, b, msg) =>
 // Short: https://ncode.syosetu.com/n5338kc/
 // Going: https://ncode.syosetu.com/n2236kb/
 // Completed: https://ncode.syosetu.com/n3620kc/
+// 18: https://novel18.syosetu.com/n3193jo/
 
 describe(__path, () => {
   return;
@@ -23,17 +24,35 @@ describe(__path, () => {
   test("short", async () => {
     const meta = await a.getMetadata("n5338kc");
     eq(meta.onGoing, false);
+    eq(meta.title, "踊り子の影");
+    eq(meta.author, "コンマツケ");
   });
 
   test("going", async () => {
     const meta = await a.getMetadata("n2236kb");
     eq(meta.onGoing, true);
+    eq(meta.title, "デス・ガンスリンガー 〜戦場に生きる最強の亡霊〜");
+    eq(meta.author, "雨宮悠理");
   });
 
   test("completed", async () => {
     const meta = await a.getMetadata("n3620kc");
     eq(meta.onGoing, false);
+    eq(meta.title, "恋人の多様性");
+    eq(meta.author, "ちゃもちょあちゃ");
   });
+
+  test("18", async () => {
+    const meta = await a.getMetadata("n3193jo");
+    eq(meta.onGoing, true);
+    eq(
+      meta.title,
+      "アナタの小説が一次選考落選なのは、過激な描写が多いからです"
+    );
+    eq(meta.author, "天界 聖夜");
+  });
+
+  return;
 
   test("init", async () => {
     return;

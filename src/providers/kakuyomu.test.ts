@@ -22,12 +22,21 @@ describe(__path, () => {
   test("going", async () => {
     const meta = await a.getMetadata("16818093093040916427");
     eq(meta.onGoing, true);
+    eq(
+      meta.title,
+      "モブに転生したけど、前世で育てた最強種ドラゴンを引き継げました~前世では病弱だったから相棒と一緒に自由に生きているだけなのに、なぜかメインヒロイン達から迫られています~"
+    );
+    eq(meta.author, "むらくも航");
   });
 
   test("completed", async () => {
     const meta = await a.getMetadata("16818093094170635844");
     eq(meta.onGoing, false);
+    eq(meta.title, "外伝・リンツの丘の聖堂");
+    eq(meta.author, "佐山知範");
   });
+
+  return;
 
   test("init", async () => {
     return;
