@@ -2,6 +2,7 @@
 
 import { IChapter } from "./models/chapter";
 import { Provider, PROVIDER } from "./models/provider";
+import { IWeb } from "./models/web";
 import { Alphapolis } from "./providers/alphapolis";
 import { Hameln } from "./providers/hameln";
 import { Kakuyomu } from "./providers/kakuyomu";
@@ -19,6 +20,13 @@ const instances = {
   alphapolis: new Alphapolis(),
   hameln: new Hameln(),
 };
+
+export async function setCacheDir(dirPath: string) {
+  instances.narou.cacheDir = dirPath;
+  instances.kakuyomu.cacheDir = dirPath;
+  instances.alphapolis.cacheDir = dirPath;
+  instances.hameln.cacheDir = dirPath;
+}
 
 export async function getMetadata(provider: Provider, bookId: string) {
   if (provider === "narou") {

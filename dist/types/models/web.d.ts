@@ -4,12 +4,18 @@ export declare function getElement(page: Page, selector: string, timeout?: numbe
 export declare function getContent(page: Page, selector: string, timeout?: number): Promise<string | null>;
 export declare function clickElement(page: Page, selector: string, timeout?: number): Promise<void>;
 export declare function waitContent(page: Page, selector: string, validator: (content: string) => boolean, timeout?: number): Promise<string>;
-export declare class Web {
+export interface IWeb {
     cacheDir: string;
     isOpened: boolean;
     browser?: Browser;
     pageOptions?: GoToOptions;
-    constructor();
+}
+export declare class Web implements IWeb {
+    cacheDir: string;
+    isOpened: boolean;
+    browser?: Browser;
+    pageOptions?: GoToOptions;
+    constructor(options?: IWeb);
     open(): Promise<void>;
     close(): Promise<void>;
     load(url: string, selectors?: string[] | null, onLoad?: (page: Page) => Promise<void>): Promise<cheerio.CheerioAPI>;

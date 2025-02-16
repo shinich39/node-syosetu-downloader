@@ -1,7 +1,7 @@
 "use strict";
 
 import dayjs from "dayjs";
-import { Web } from "../models/web";
+import { IWeb, Web } from "../models/web";
 import { getText, toInt } from "../utils/util";
 import { toHalfWidth } from "utils-js";
 import { IMeta } from "../models/meta";
@@ -9,8 +9,8 @@ import { IChapter } from "../models/chapter";
 import { IBook } from "../models/book";
 
 export class Narou extends Web {
-  constructor() {
-    super();
+  constructor(options?: IWeb) {
+    super(options);
   }
 
   async getMetadata(id: string) {

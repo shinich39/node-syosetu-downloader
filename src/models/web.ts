@@ -87,15 +87,23 @@ export async function waitContent(
   throw new Error(`Content not found: ${selector}`);
 }
 
-export class Web {
+export interface IWeb {
+  cacheDir: string;
+  isOpened: boolean;
+  browser?: Browser;
+  pageOptions?: GoToOptions;
+}
+
+export class Web implements IWeb {
   cacheDir: string;
   isOpened: boolean;
   browser?: Browser;
   pageOptions?: GoToOptions;
 
-  constructor() {
+  constructor(options?: IWeb) {
     this.isOpened = false;
     this.cacheDir = ".puppeteer";
+    Object.assign(this, options);
   }
 
   async open() {

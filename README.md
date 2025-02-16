@@ -20,6 +20,7 @@ npm install github:shinich39/node-syosetu-downloader
 import {
   parseURL,
   createURL,
+  setCacheDir,
   getMetadata,
   getChapter,
   getBook,

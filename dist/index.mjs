@@ -460,9 +460,10 @@ async function waitContent(page, selector, validator, timeout = 0) {
   throw new Error(`Content not found: ${selector}`);
 }
 var Web = class {
-  constructor() {
+  constructor(options) {
     this.isOpened = false;
     this.cacheDir = ".puppeteer";
+    Object.assign(this, options);
   }
   async open() {
     if (!this.isOpened) {
@@ -549,8 +550,8 @@ function getText($2) {
 
 // src/providers/alphapolis.ts
 var Alphapolis = class extends Web {
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
   }
   async getMetadata(uid, nid) {
     const url = `https://www.alphapolis.co.jp/novel/${uid}/${nid}`;
@@ -655,8 +656,8 @@ var Alphapolis = class extends Web {
 // src/providers/hameln.ts
 import dayjs2 from "dayjs";
 var Hameln = class extends Web {
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
   }
   async getMetadata(id) {
     const url = `https://syosetu.org/?mode=ss_detail&nid=${id}`;
@@ -742,8 +743,8 @@ var Hameln = class extends Web {
 // src/providers/kakuyomu.ts
 import dayjs3 from "dayjs";
 var Kakuyomu = class extends Web {
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
   }
   async getMetadata(id) {
     const url = `https://kakuyomu.jp/works/${id}`;
@@ -792,7 +793,6 @@ var Kakuyomu = class extends Web {
         });
       }
     }
-    chapters.sort((a, b) => a.publishedAt - b.publishedAt);
     const result = {
       onGoing,
       title,
@@ -854,8 +854,8 @@ var Kakuyomu = class extends Web {
 // src/providers/narou.ts
 import dayjs4 from "dayjs";
 var Narou = class extends Web {
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
   }
   async getMetadata(id) {
     const url = `https://ncode.syosetu.com/novelview/infotop/ncode/${id}/`;
@@ -1037,6 +1037,12 @@ var instances = {
   alphapolis: new Alphapolis(),
   hameln: new Hameln()
 };
+async function setCacheDir(dirPath) {
+  instances.narou.cacheDir = dirPath;
+  instances.kakuyomu.cacheDir = dirPath;
+  instances.alphapolis.cacheDir = dirPath;
+  instances.hameln.cacheDir = dirPath;
+}
 async function getMetadata(provider, bookId) {
   if (provider === "narou") {
     return await instances.narou.getMetadata(bookId);
@@ -1099,5 +1105,6 @@ export {
   getBook,
   getChapter,
   getMetadata,
-  parseURL
+  parseURL,
+  setCacheDir
 };

@@ -1,7 +1,7 @@
 "use strict";
 
 import dayjs from "dayjs";
-import { Web } from "../models/web";
+import { IWeb, Web } from "../models/web";
 import { getText } from "../utils/util";
 import { isObject } from "utils-js";
 import { IMeta } from "../models/meta";
@@ -9,8 +9,8 @@ import { IChapter } from "../models/chapter";
 import { IBook } from "../models/book";
 
 export class Kakuyomu extends Web {
-  constructor() {
-    super();
+  constructor(options?: IWeb) {
+    super(options);
   }
 
   async getMetadata(id: string) {
@@ -73,7 +73,7 @@ export class Kakuyomu extends Web {
       }
     }
 
-    chapters.sort((a, b) => a.publishedAt - b.publishedAt);
+    // chapters.sort((a, b) => a.publishedAt - b.publishedAt);
 
     const result: IMeta = {
       onGoing: onGoing,

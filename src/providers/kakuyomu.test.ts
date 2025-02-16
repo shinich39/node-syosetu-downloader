@@ -17,8 +17,8 @@ describe(__path, () => {
 
     const k = new Kakuyomu();
 
-    const meta = await k.getMetadata("16818093077848491501");
-    console.log(meta);
+    // const meta = await k.getMetadata("16818093077848491501");
+    // console.log(meta);
 
     const data = await k.getBook(
       "16818093077848491501",
@@ -26,7 +26,7 @@ describe(__path, () => {
         console.log(err, chapter, index, length);
       }
     );
-    console.log(data);
+    // console.log(data);
 
     await k.close();
   });
