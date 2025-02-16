@@ -35,10 +35,8 @@ describe(__path, () => {
     eq(meta.onGoing, false);
   });
 
-  
   test("init", async () => {
     return;
-
 
     const meta = await n.getMetadata("n3620kc");
     console.log(meta);

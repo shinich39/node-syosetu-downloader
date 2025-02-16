@@ -16,7 +16,7 @@ const eq = (a, b, msg) =>
 
 describe(__path, () => {
   return;
-  
+
   const a = new Kakuyomu();
 
   test("going", async () => {
@@ -28,10 +28,9 @@ describe(__path, () => {
     const meta = await a.getMetadata("16818093094170635844");
     eq(meta.onGoing, false);
   });
-  
+
   test("init", async () => {
     return;
-
 
     const meta = await k.getMetadata("16818093094170635844");
     console.log(meta);

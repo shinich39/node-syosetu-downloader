@@ -18,7 +18,7 @@ export class Narou extends Web {
     const $ = await this.fetch(url);
 
     let isShort = false,
-        onGoing = true;
+      onGoing = true;
     const infoStr = getText($("#pre_info"));
     if (infoStr.indexOf("短編") > -1) {
       isShort = true;
@@ -27,7 +27,7 @@ export class Narou extends Web {
       isShort = false;
       onGoing = false;
     } else {
-      isShort = false
+      isShort = false;
       onGoing = true;
     }
     const title = getText($("#contents_main > h1 > a"));

@@ -564,7 +564,7 @@ var Alphapolis = class extends Web {
         }).next()
       );
     };
-    const onGoing = /連載中/.test(getText($2(".content-status.complete")));
+    const onGoing = /連載中/.test(getText($2(".content-statuses").first()));
     const title = getText($2("h1.title"));
     const author = getText($2(".author"));
     const outline = getText($2(".abstract").first());
@@ -860,8 +860,18 @@ var Narou = class extends Web {
   async getMetadata(id) {
     const url = `https://ncode.syosetu.com/novelview/infotop/ncode/${id}/`;
     const $2 = await this.fetch(url);
-    const isShort = getText($2("#noveltype")) === "\u77ED\u7DE8";
-    const onGoing = !isShort && getText($2("#noveltype_not")) !== "\u5B8C\u7D50\u6E08";
+    let isShort = false, onGoing = true;
+    const infoStr = getText($2("#pre_info"));
+    if (infoStr.indexOf("\u77ED\u7DE8") > -1) {
+      isShort = true;
+      onGoing = false;
+    } else if (infoStr.indexOf("\u5B8C\u7D50\u6E08") > -1) {
+      isShort = false;
+      onGoing = false;
+    } else {
+      isShort = false;
+      onGoing = true;
+    }
     const title = getText($2("#contents_main > h1 > a"));
     const author = getText($2("#noveltable1 tbody tr:nth-child(2) td"));
     const outline = getText($2("#noveltable1 tbody tr:nth-child(1) td"));

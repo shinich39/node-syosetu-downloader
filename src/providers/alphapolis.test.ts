@@ -16,10 +16,9 @@ const eq = (a, b, msg) =>
 // Going: https://www.alphapolis.co.jp/novel/76166291/213939438
 // Completed: https://www.alphapolis.co.jp/novel/77586146/733940483
 
-
 describe(__path, () => {
   return;
-  
+
   const a = new Alphapolis();
 
   test("short-going", async () => {
@@ -41,10 +40,6 @@ describe(__path, () => {
     const meta = await a.getMetadata("77586146", "733940483");
     eq(meta.onGoing, false);
   });
-
-
-
-
 
   test("init", async () => {
     return;
