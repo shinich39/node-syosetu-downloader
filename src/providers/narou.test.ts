@@ -26,6 +26,20 @@ describe(__path, () => {
     console.log(data);
   });
 
+  test("single chapter", async () => {
+    return;
+    
+    const n = new Narou();
+
+    const meta = await n.getMetadata("n4525kc");
+    console.log(meta);
+
+    const data = await n.getBook("n4525kc", (err, chapter, index, length) => {
+      console.log(err, chapter, index, length);
+    });
+    console.log(data);
+  });
+
   test("18", async () => {
     return;
 

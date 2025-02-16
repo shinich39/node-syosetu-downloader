@@ -17,7 +17,8 @@ export class Narou extends Web {
     const url = `https://ncode.syosetu.com/novelview/infotop/ncode/${id}/`;
     const $ = await this.fetch(url);
 
-    const onGoing = getText($("#noveltype_not")) !== "完結済";
+    const isShort = getText($("#noveltype")) === "短編";
+    const onGoing = !isShort && getText($("#noveltype_not")) !== "完結済";
     const title = getText($("#contents_main > h1 > a"));
     const author = getText($("#noveltable1 tbody tr:nth-child(2) td"));
     const outline = getText($("#noveltable1 tbody tr:nth-child(1) td"));
@@ -35,19 +36,26 @@ export class Narou extends Web {
         ? dayjs(createdAtStr, "YYYYMMDDHHmm").valueOf()
         : 0;
 
-    const updatedAt =
-      updatedAtStr.length === 12
-        ? dayjs(updatedAtStr, "YYYYMMDDHHmm").valueOf()
-        : 0;
-
-    const chapterCount = toInt(
-      toHalfWidth($("#pre_info").text()).match(/全([0-9]+)エピソード/)?.[1] ||
-        ""
-    );
+    const updatedAt = isShort 
+      ? createdAt
+      : updatedAtStr.length === 12 
+      ? dayjs(updatedAtStr, "YYYYMMDDHHmm").valueOf()
+      : 0;
+ 
+    const chapterCount = isShort 
+      ? 1
+      : toInt(
+        toHalfWidth($("#pre_info").text()).match(/全([0-9]+)エピソード/)?.[1] ||
+          ""
+      );
 
     const chapterIds: string[] = [];
-    for (let i = 0; i < chapterCount; i++) {
-      chapterIds.push("" + (i + 1));
+    if (isShort) {
+      chapterIds.push("");
+    } else {
+      for (let i = 0; i < chapterCount; i++) {
+        chapterIds.push("" + (i + 1));
+      }
     }
 
     const result: IMeta = {
@@ -68,7 +76,11 @@ export class Narou extends Web {
   }
 
   async getChapter(nid: string, cid: string) {
-    const url = `https://ncode.syosetu.com/${nid}/${cid}`;
+    const url = cid === "" 
+      // short
+      ? `https://ncode.syosetu.com/${nid}` 
+      // long
+      : `https://ncode.syosetu.com/${nid}/${cid}`;
     const $ = await this.fetch(url);
 
     const title = getText($("h1.p-novel__title"));
