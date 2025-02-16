@@ -26,6 +26,10 @@ import {
   close
 } from "node-syosetu-downloader";
 
+/**
+ * Narou short syosetu chapter id is ""
+ */
+
 const metadata = await getMetadata(
   "narou",
   "n6868jy",

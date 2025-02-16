@@ -1,19 +1,40 @@
 import { Provider } from "../models/provider";
 
-export function createURL(provider: Provider | string, id: string) {
+export function createURL(
+  provider: Provider | string,
+  bookId: string,
+  chapterId?: string
+) {
+  let url = "";
   if (provider === "narou") {
-    return `https://ncode.syosetu.com/${id}/`;
+    url = `https://ncode.syosetu.com/${bookId}/`;
+    if (chapterId && chapterId !== "") {
+      url += `${chapterId}`;
+    }
   } else if (provider === "narou18") {
-    return `https://novel18.syosetu.com/${id}/`;
+    url = `https://novel18.syosetu.com/${bookId}/`;
+    if (chapterId) {
+      url += `${chapterId}`;
+    }
   } else if (provider === "kakuyomu") {
-    return `https://kakuyomu.jp/works/${id}`;
+    url = `https://kakuyomu.jp/works/${bookId}`;
+    if (chapterId) {
+      url += `/episodes/${chapterId}`;
+    }
   } else if (provider === "hameln") {
-    return `https://syosetu.org/novel/${id}/`;
+    url = `https://syosetu.org/novel/${bookId}/`;
+    if (chapterId) {
+      url += `${chapterId}.html`;
+    }
   } else if (provider === "alphapolis") {
-    return `https://www.alphapolis.co.jp/novel/${id}/`;
+    url = `https://www.alphapolis.co.jp/novel/${bookId}/`;
+    if (chapterId) {
+      url += `episode/${chapterId}`;
+    }
   } else {
     throw new Error(`Invalid provider: ${provider}`);
   }
+  return url;
 }
 
 export function parseURL(str: string) {
@@ -61,9 +82,9 @@ export function parseURL(str: string) {
         }
 
         result.push({
+          url: url,
           provider: provider as Provider,
           id: match[1],
-          url: url,
         });
       }
     }
