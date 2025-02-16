@@ -26,9 +26,9 @@ describe(__path, () => {
     console.log(data);
   });
 
-  test("single chapter", async () => {
+  test("short", async () => {
     return;
-    
+
     const n = new Narou();
 
     const meta = await n.getMetadata("n4525kc");

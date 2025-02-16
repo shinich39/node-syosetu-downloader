@@ -33,7 +33,7 @@ export class Alphapolis extends Web {
     const onGoing = /連載中/.test(getText($(".content-status.complete")));
     const title = getText($("h1.title"));
     const author = getText($(".author"));
-    const outline = getText($(".abstract:nth-child(1)"));
+    const outline = getText($(".abstract").first());
 
     // 2025.01.11 18:07
     // 202501111807

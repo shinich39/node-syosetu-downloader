@@ -31,4 +31,24 @@ describe(__path, () => {
 
     await a.close();
   });
+
+  test("short", async () => {
+    return;
+
+    const a = new Alphapolis();
+
+    const meta = await a.getMetadata("251592256", "697940638");
+    console.log(meta);
+
+    const data = await a.getBook(
+      "251592256",
+      "697940638",
+      (err, chapter, index, length) => {
+        console.log(err, chapter, index, length);
+      }
+    );
+    console.log(data);
+
+    await a.close();
+  });
 });

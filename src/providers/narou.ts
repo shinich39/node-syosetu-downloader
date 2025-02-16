@@ -36,18 +36,16 @@ export class Narou extends Web {
         ? dayjs(createdAtStr, "YYYYMMDDHHmm").valueOf()
         : 0;
 
-    const updatedAt = isShort 
+    const updatedAt = isShort
       ? createdAt
-      : updatedAtStr.length === 12 
-      ? dayjs(updatedAtStr, "YYYYMMDDHHmm").valueOf()
-      : 0;
- 
-    const chapterCount = isShort 
-      ? 1
-      : toInt(
-        toHalfWidth($("#pre_info").text()).match(/全([0-9]+)エピソード/)?.[1] ||
-          ""
-      );
+      : updatedAtStr.length === 12
+        ? dayjs(updatedAtStr, "YYYYMMDDHHmm").valueOf()
+        : 0;
+
+    const chapterCount = toInt(
+      toHalfWidth($("#pre_info").text()).match(/全([0-9]+)エピソード/)?.[1] ||
+        ""
+    );
 
     const chapterIds: string[] = [];
     if (isShort) {
@@ -76,11 +74,12 @@ export class Narou extends Web {
   }
 
   async getChapter(nid: string, cid: string) {
-    const url = cid === "" 
-      // short
-      ? `https://ncode.syosetu.com/${nid}` 
-      // long
-      : `https://ncode.syosetu.com/${nid}/${cid}`;
+    const url =
+      cid === ""
+        ? // short
+          `https://ncode.syosetu.com/${nid}`
+        : // long
+          `https://ncode.syosetu.com/${nid}/${cid}`;
     const $ = await this.fetch(url);
 
     const title = getText($("h1.p-novel__title"));

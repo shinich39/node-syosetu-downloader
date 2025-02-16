@@ -28,6 +28,22 @@ describe(__path, () => {
     await h.close();
   });
 
+  test("short", async () => {
+    return;
+
+    const h = new Hameln();
+
+    const meta = await h.getMetadata("367061");
+    console.log(meta);
+
+    // const data = await h.getBook("367061", (err, chapter, index, length) => {
+    //   console.log(err, chapter, index, length);
+    // });
+    // console.log(data);
+
+    await h.close();
+  });
+
   test("18", async () => {
     return;
 

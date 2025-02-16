@@ -508,7 +508,7 @@ var Web = class {
     if (!this.isOpened) {
       this.isOpened = true;
       this.browser = await import_puppeteer_extra.default.launch({
-        headless: false,
+        // headless: false,
         // args: ["--no-sandbox"],
         userDataDir: this.cacheDir
         // executablePath: "google-chrome-stable",
@@ -606,7 +606,7 @@ var Alphapolis = class extends Web {
     const onGoing = /連載中/.test(getText($2(".content-status.complete")));
     const title = getText($2("h1.title"));
     const author = getText($2(".author"));
-    const outline = getText($2(".abstract:nth-child(1)"));
+    const outline = getText($2(".abstract").first());
     const createdAtStr = getTableText("\u521D\u56DE\u516C\u958B\u65E5\u6642").replace(/[^0-9]/g, "");
     const updatedAtStr = getTableText("\u66F4\u65B0\u65E5\u6642").replace(/[^0-9]/g, "");
     const createdAt = createdAtStr.length === 12 ? (0, import_dayjs.default)(createdAtStr, "YYYYMMDDHHmm").valueOf() : 0;
@@ -708,7 +708,7 @@ var Hameln = class extends Web {
         }).next()
       );
     };
-    const onGoing = /短編|完結/.test(getTableText("\u8A71\u6570"));
+    const onGoing = !/短編|完結/.test(getTableText("\u8A71\u6570"));
     const title = getTableText("\u30BF\u30A4\u30C8\u30EB");
     const author = getTableText("\u4F5C\u8005");
     const outline = getTableText("\u3042\u3089\u3059\u3058");
@@ -900,7 +900,8 @@ var Narou = class extends Web {
   async getMetadata(id) {
     const url = `https://ncode.syosetu.com/novelview/infotop/ncode/${id}/`;
     const $2 = await this.fetch(url);
-    const onGoing = getText($2("#noveltype_not")) !== "\u5B8C\u7D50\u6E08";
+    const isShort = getText($2("#noveltype")) === "\u77ED\u7DE8";
+    const onGoing = !isShort && getText($2("#noveltype_not")) !== "\u5B8C\u7D50\u6E08";
     const title = getText($2("#contents_main > h1 > a"));
     const author = getText($2("#noveltable1 tbody tr:nth-child(2) td"));
     const outline = getText($2("#noveltable1 tbody tr:nth-child(1) td"));
@@ -911,13 +912,17 @@ var Narou = class extends Web {
       $2("#noveltable2 tbody tr:nth-child(2) td")
     ).replace(/[^0-9]/g, "");
     const createdAt = createdAtStr.length === 12 ? (0, import_dayjs4.default)(createdAtStr, "YYYYMMDDHHmm").valueOf() : 0;
-    const updatedAt = updatedAtStr.length === 12 ? (0, import_dayjs4.default)(updatedAtStr, "YYYYMMDDHHmm").valueOf() : 0;
+    const updatedAt = isShort ? createdAt : updatedAtStr.length === 12 ? (0, import_dayjs4.default)(updatedAtStr, "YYYYMMDDHHmm").valueOf() : 0;
     const chapterCount = toInt(
       je($2("#pre_info").text()).match(/全([0-9]+)エピソード/)?.[1] || ""
     );
     const chapterIds = [];
-    for (let i = 0; i < chapterCount; i++) {
-      chapterIds.push("" + (i + 1));
+    if (isShort) {
+      chapterIds.push("");
+    } else {
+      for (let i = 0; i < chapterCount; i++) {
+        chapterIds.push("" + (i + 1));
+      }
     }
     const result = {
       onGoing,
@@ -934,7 +939,13 @@ var Narou = class extends Web {
     return result;
   }
   async getChapter(nid, cid) {
-    const url = `https://ncode.syosetu.com/${nid}/${cid}`;
+    const url = cid === "" ? (
+      // short
+      `https://ncode.syosetu.com/${nid}`
+    ) : (
+      // long
+      `https://ncode.syosetu.com/${nid}/${cid}`
+    );
     const $2 = await this.fetch(url);
     const title = getText($2("h1.p-novel__title"));
     let i = 1, elem = $2(`#L${i}`);

@@ -102,7 +102,7 @@ export class Web {
     if (!this.isOpened) {
       this.isOpened = true;
       this.browser = await puppeteer.launch({
-        headless: false,
+        // headless: false,
         // args: ["--no-sandbox"],
         userDataDir: this.cacheDir,
         // executablePath: "google-chrome-stable",

@@ -26,7 +26,7 @@ export class Hameln extends Web {
       );
     };
 
-    const onGoing = /短編|完結/.test(getTableText("話数"));
+    const onGoing = !/短編|完結/.test(getTableText("話数"));
     const title = getTableText("タイトル");
     const author = getTableText("作者");
     const outline = getTableText("あらすじ");
