@@ -30,7 +30,7 @@ export class Alphapolis extends Web {
       );
     };
 
-    const onGoing = /連載中/.test(getText($(".content-status.complete")));
+    const onGoing = /連載中/.test(getText($(".content-statuses").first()));
     const title = getText($("h1.title"));
     const author = getText($(".author"));
     const outline = getText($(".abstract").first());

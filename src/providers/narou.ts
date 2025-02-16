@@ -17,8 +17,19 @@ export class Narou extends Web {
     const url = `https://ncode.syosetu.com/novelview/infotop/ncode/${id}/`;
     const $ = await this.fetch(url);
 
-    const isShort = getText($("#noveltype")) === "短編";
-    const onGoing = !isShort && getText($("#noveltype_not")) !== "完結済";
+    let isShort = false,
+        onGoing = true;
+    const infoStr = getText($("#pre_info"));
+    if (infoStr.indexOf("短編") > -1) {
+      isShort = true;
+      onGoing = false;
+    } else if (infoStr.indexOf("完結済") > -1) {
+      isShort = false;
+      onGoing = false;
+    } else {
+      isShort = false
+      onGoing = true;
+    }
     const title = getText($("#contents_main > h1 > a"));
     const author = getText($("#noveltable1 tbody tr:nth-child(2) td"));
     const outline = getText($("#noveltable1 tbody tr:nth-child(1) td"));

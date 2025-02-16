@@ -11,21 +11,37 @@ const eq = (a, b, msg) =>
     ? assert.deepStrictEqual(a, b, msg)
     : assert.strictEqual(a, b, msg);
 
+// Going: https://kakuyomu.jp/works/16818093093040916427
+// Completed: https://kakuyomu.jp/works/16818093094170635844
+
 describe(__path, () => {
+  return;
+  
+  const a = new Kakuyomu();
+
+  test("going", async () => {
+    const meta = await a.getMetadata("16818093093040916427");
+    eq(meta.onGoing, true);
+  });
+
+  test("completed", async () => {
+    const meta = await a.getMetadata("16818093094170635844");
+    eq(meta.onGoing, false);
+  });
+  
   test("init", async () => {
     return;
 
-    const k = new Kakuyomu();
 
-    // const meta = await k.getMetadata("16818093077848491501");
-    // console.log(meta);
+    const meta = await k.getMetadata("16818093094170635844");
+    console.log(meta);
 
-    const data = await k.getBook(
-      "16818093077848491501",
-      (err, chapter, index, length) => {
-        console.log(err, chapter, index, length);
-      }
-    );
+    // const data = await k.getBook(
+    //   "16818093077848491501",
+    //   (err, chapter, index, length) => {
+    //     console.log(err, chapter, index, length);
+    //   }
+    // );
     // console.log(data);
 
     await k.close();
