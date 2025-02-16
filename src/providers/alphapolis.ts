@@ -111,7 +111,7 @@ export class Alphapolis extends Web {
       throw new Error("Content not found");
     });
 
-    const title = getText($("div.episode-title"));
+    const title = getText($(".episode-title"));
     const content = $("#novelBody").find("br").replaceWith("\n").end().text();
 
     const result: IChapter = {

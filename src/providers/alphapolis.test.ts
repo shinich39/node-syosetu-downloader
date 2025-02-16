@@ -17,8 +17,8 @@ describe(__path, () => {
 
     const a = new Alphapolis();
 
-    // const meta = await a.getMetadata("292625099", "906732223");
-    // console.log(meta);
+    const meta = await a.getMetadata("292625099", "906732223");
+    console.log(meta);
 
     const data = await a.getBook(
       "292625099",
@@ -37,14 +37,14 @@ describe(__path, () => {
 
     const a = new Alphapolis();
 
-    const meta = await a.getMetadata("251592256", "697940638");
-    console.log(meta);
+    // const meta = await a.getMetadata("251592256", "697940638");
+    // console.log(meta);
 
     const data = await a.getBook(
       "251592256",
       "697940638",
       (err, chapter, index, length) => {
-        console.log(err, chapter, index, length);
+        console.log(err, chapter.title, index, length);
       }
     );
     console.log(data);

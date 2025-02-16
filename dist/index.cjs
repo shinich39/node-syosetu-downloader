@@ -661,7 +661,7 @@ var Alphapolis = class extends Web {
       }
       throw new Error("Content not found");
     });
-    const title = getText($2("div.episode-title"));
+    const title = getText($2(".episode-title"));
     const content = $2("#novelBody").find("br").replaceWith("\n").end().text();
     const result = {
       id: cid,
