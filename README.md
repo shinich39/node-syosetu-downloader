@@ -17,7 +17,14 @@ npm install github:shinich39/node-syosetu-downloader
 - node
 
 ```js
-import { getMetadata, getChapter, getBook, close } from "node-syosetu-downloader";
+import {
+  parseURL,
+  createURL,
+  getMetadata,
+  getChapter,
+  getBook,
+  close
+} from "node-syosetu-downloader";
 
 const metadata = await getMetadata(
   "narou",

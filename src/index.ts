@@ -11,6 +11,7 @@ export * from "./models/provider";
 export * from "./models/meta";
 export * from "./models/chapter";
 export * from "./models/book";
+export * from "./utils/url";
 
 const instances = {
   narou: new Narou(),

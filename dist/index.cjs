@@ -32,9 +32,11 @@ var index_exports = {};
 __export(index_exports, {
   PROVIDER: () => PROVIDER,
   close: () => close,
+  createURL: () => createURL,
   getBook: () => getBook,
   getChapter: () => getChapter,
-  getMetadata: () => getMetadata
+  getMetadata: () => getMetadata,
+  parseURL: () => parseURL
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -996,6 +998,63 @@ var PROVIDER = {
   HAMELN: "hameln"
 };
 
+// src/utils/url.ts
+function createURL(provider, id) {
+  if (provider === "narou") {
+    return `https://ncode.syosetu.com/${id}/`;
+  } else if (provider === "narou18") {
+    return `https://novel18.syosetu.com/${id}/`;
+  } else if (provider === "kakuyomu") {
+    return `https://kakuyomu.jp/works/${id}`;
+  } else if (provider === "hameln") {
+    return `https://syosetu.org/novel/${id}/`;
+  } else if (provider === "alphapolis") {
+    return `https://www.alphapolis.co.jp/novel/${id}/`;
+  } else {
+    throw new Error(`Invalid provider: ${provider}`);
+  }
+}
+function parseURL(str) {
+  const options = [
+    [
+      "narou",
+      /^https?:\/\/(?:www\.)?ncode\.syosetu\.com\/(?!novelview)([^/]+)(?:$|\/)/
+    ],
+    [
+      "narou",
+      /^https?:\/\/(?:www\.)?novel18\.syosetu\.com\/(?!novelview)([^/]+)(?:$|\/)/
+    ],
+    ["kakuyomu", /^https?:\/\/(?:www\.)?kakuyomu\.jp\/works\/([^/]+)(?:$|\/)/],
+    ["hameln", /^https?:\/\/(?:www\.)?syosetu.org\/novel\/([^/]+)(?:$|\/)/],
+    [
+      "alphapolis",
+      /^https?:\/\/(?:www\.)?alphapolis\.co\.jp\/novel\/([^/]+\/[^/]+)(?:$|\/)/
+    ]
+  ];
+  const parts = str.split(/\s/).map((item) => item.trim()).filter(Boolean);
+  const result = [];
+  for (const part of parts) {
+    for (const [provider, re2] of options) {
+      if (re2.test(part)) {
+        const match = part.match(re2);
+        if (!match || !match[0] || !match[1]) {
+          continue;
+        }
+        let url = match[0];
+        if (provider === "kakuyomu") {
+          url = url.replace(/\/$/, "");
+        }
+        result.push({
+          provider,
+          id: match[1],
+          url
+        });
+      }
+    }
+  }
+  return result;
+}
+
 // src/index.ts
 var instances = {
   narou: new Narou(),
@@ -1062,7 +1121,9 @@ async function close() {
 0 && (module.exports = {
   PROVIDER,
   close,
+  createURL,
   getBook,
   getChapter,
-  getMetadata
+  getMetadata,
+  parseURL
 });
