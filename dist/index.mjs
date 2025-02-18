@@ -526,7 +526,9 @@ var Web = class {
   async fetch(url, options) {
     const response = await fetchWithCookies(url, options);
     if (!response.ok) {
-      throw new Error("Fetching failed");
+      const err = new Error(response.statusText);
+      err.status = response.status;
+      throw err;
     }
     const content = await response.text();
     const $2 = cheerio.load(content);

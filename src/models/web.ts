@@ -191,7 +191,9 @@ export class Web implements IWeb {
 
     const response = await fetchWithCookies(url, options);
     if (!response.ok) {
-      throw new Error("Fetching failed");
+      const err = new Error(response.statusText) as Error & { status: number };
+      err.status = response.status;
+      throw err;
     }
 
     const content = await response.text();
