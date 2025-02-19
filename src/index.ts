@@ -1,6 +1,8 @@
 "use strict";
 
+import { IBook } from "./models/book";
 import { IChapter } from "./models/chapter";
+import { IMeta } from "./models/meta";
 import { Provider, PROVIDER } from "./models/provider";
 import { IWeb } from "./models/web";
 import { Alphapolis } from "./providers/alphapolis";
@@ -29,20 +31,30 @@ export async function setCacheDir(dirPath: string) {
 }
 
 export async function getMetadata(provider: Provider, bookId: string) {
+  let data: IMeta;
   if (provider === "narou") {
-    return await instances.narou.getMetadata(bookId);
+    data = await instances.narou.getMetadata(bookId);
   } else if (provider === "kakuyomu") {
-    return await instances.kakuyomu.getMetadata(bookId);
+    data = await instances.kakuyomu.getMetadata(bookId);
   } else if (provider === "alphapolis") {
-    return await instances.alphapolis.getMetadata(
+    data = await instances.alphapolis.getMetadata(
       bookId.split("/")[0],
       bookId.split("/")[1]
     );
   } else if (provider === "hameln") {
-    return await instances.hameln.getMetadata(bookId);
+    data = await instances.hameln.getMetadata(bookId);
   } else {
     throw new Error(`Invalid provider: ${provider}`);
   }
+
+  if (data.title.trim() === "") {
+    throw new Error("Title not found");
+  }
+  if (data.author.trim() === "") {
+    throw new Error("Author not found");
+  }
+
+  return data;
 }
 
 export async function getChapter(
@@ -50,21 +62,28 @@ export async function getChapter(
   bookId: string,
   chapterId: string
 ) {
+  let data: IChapter;
   if (provider === "narou") {
-    return await instances.narou.getChapter(bookId, chapterId);
+    data = await instances.narou.getChapter(bookId, chapterId);
   } else if (provider === "kakuyomu") {
-    return await instances.kakuyomu.getChapter(bookId, chapterId);
+    data = await instances.kakuyomu.getChapter(bookId, chapterId);
   } else if (provider === "alphapolis") {
-    return await instances.alphapolis.getChapter(
+    data = await instances.alphapolis.getChapter(
       bookId.split("/")[0],
       bookId.split("/")[1],
       chapterId
     );
   } else if (provider === "hameln") {
-    return await instances.hameln.getChapter(bookId, chapterId);
+    data = await instances.hameln.getChapter(bookId, chapterId);
   } else {
     throw new Error(`Invalid provider: ${provider}`);
   }
+
+  if (data.title.trim() === "") {
+    throw new Error("Title not found");
+  }
+
+  return data;
 }
 
 export async function getBook(
@@ -77,21 +96,31 @@ export async function getBook(
     length: number
   ) => void
 ) {
+  let data: IBook;
   if (provider === "narou") {
-    return await instances.narou.getBook(bookId, callback);
+    data = await instances.narou.getBook(bookId, callback);
   } else if (provider === "kakuyomu") {
-    return await instances.kakuyomu.getBook(bookId, callback);
+    data = await instances.kakuyomu.getBook(bookId, callback);
   } else if (provider === "alphapolis") {
-    return await instances.alphapolis.getBook(
+    data = await instances.alphapolis.getBook(
       bookId.split("/")[0],
       bookId.split("/")[1],
       callback
     );
   } else if (provider === "hameln") {
-    return await instances.hameln.getBook(bookId, callback);
+    data = await instances.hameln.getBook(bookId, callback);
   } else {
     throw new Error(`Invalid provider: ${provider}`);
   }
+
+  if (data.title.trim() === "") {
+    throw new Error("Title not found");
+  }
+  if (data.author.trim() === "") {
+    throw new Error("Author not found");
+  }
+
+  return data;
 }
 
 export async function close() {
